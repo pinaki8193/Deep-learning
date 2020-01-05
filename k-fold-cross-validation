@@ -1,0 +1,57 @@
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+import numpy as np
+from numpy import linalg as LA
+from sklearn.preprocessing import StandardScaler
+iris=load_iris()
+x=iris.data
+y=iris.target
+print(x.shape)
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.2,random_state=False)
+scale=StandardScaler()
+x_train=scale.fit_transform(x_train)
+x_test=scale.transform(x_test)
+def calculate_centered_matrix(x):
+  col=None
+  for cols in zip(*x):
+    if col is None:
+      col=(cols-np.mean(cols))
+    else:
+      col1=(cols-np.mean(cols))
+      col=np.vstack((col,col1))
+  col=col.T
+  S=np.dot(col,col.T)/x.shape[0]
+  return S
+S=np.dot(x_train.T,x_train)
+#print(S)
+eign_value,eign_vect=LA.eig(S)
+
+eig_sort=np.argsort(eign_value)[::-1]
+eig_vect_sort=None
+for i in eig_sort:
+   if eig_vect_sort is None:
+     eig_vect_sort=eign_vect[i]
+   else:
+     eig_vect_sort=np.vstack((eig_vect_sort,eign_vect[i]))
+eig_vect_sort=eig_vect_sort.T 
+S_=np.dot(S,eig_vect_sort)
+print(S_)
+propotion_variance=[]
+c=0
+s=0
+for v in eign_value:
+      f=v
+      if(c==0 or c==1):
+       print(v/sum(eign_value))
+       propotion_variance.append(f/sum(eign_value))
+      else:
+        print(s/sum(eign_value))
+        propotion_variance.append(s/sum(eign_value))
+      s=s+f
+      c+=1
+print(len(propotion_variance))
+import matplotlib.pyplot as plt
+plt.plot(eign_value, propotion_variance)
+plt.xticks(eign_value,rotation=90)
+plt.show()
+print(eig_vect_sort.shape)
