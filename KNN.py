@@ -5,6 +5,7 @@ from sklearn.preprocessing import StandardScaler, MinMaxScaler,OneHotEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, mean_squared_error,log_loss
 from sklearn.datasets import load_iris
+print('Hello world')
 '''
 iris=load_iris()
 data=iris.data
