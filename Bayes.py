@@ -9,7 +9,6 @@ X=load_iris().data
 Y=load_iris().target
 Y_features=load_iris().target_names
 print(Y_features)
-print('Naive bayes')
 #['setosa' 'versicolor' 'virginica']
 X_train,X_test,Y_train,Y_test=train_test_split(X,Y,random_state=0,stratify=Y,test_size=0.2)
 print(X_train.shape,X_test.shape)
